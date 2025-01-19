@@ -1,0 +1,89 @@
+MVP:
+- Satisfaction trend over time tracker                                |   review classification
+- Satisfaction level trend over time tracker                          |   review class score
+- Issues/Satisfactions drivers + categories tracker                   |   topics extraction, context understanding, topics scoreing, topic category, category sccore
+- Products/services/employees performance tracker                     |   Product/service/employee extraction (if not givee), entities statsfction class per review, entities scoreig, trend over time
+- Analysis report export                                              |   to pdf
+- Analysis insights and summary                                       |   text generation
+- Actions recommendations                                             |   todo list generation and logging for tracking
+
+
+Later:
+- //Business Actions log and tracker (manual or integrated)           |
+- //Business Performance log and tracker (manual or integrated)       |
+- //Comptetion analysis                                               |
+
+
+_________________________________________________________________________________________________________________________________________________________
+
+*١. معالجة المدخلات (Data Processing Layer):
+- وحدة استقبال البيانات (Data Intake)
+  - معالج ملفات JSON للمراجعات
+  - معالج ملفات CSV للبيانات الإضافية
+  - معالج مدخلات النماذج (Forms)
+
+
+*٢. طبقة التحليل (Analysis Layer):
+- محلل المراجعات الأساسي (Core Review Analyzer)
+  - تحليل المشاعر والرضا
+  - استخراج المواضيع والقضايا
+  - تحديد الكيانات (منتجات/خدمات/موظفين)
+  
+- محلل الاتجاهات (Trend Analyzer)
+  - تحليل الاتجاهات الزمنية
+  - حساب المتوسطات والتغيرات
+  
+- مولد الملخصات والتوصيات (Insights Generator)
+  - توليد الملخصات النصية
+  - إنشاء قائمة التوصيات
+
+
+*٣. طبقة التخزين (Storage Layer):
+  - قاعدة بيانات للنتائج المحللة
+  - نتائج التحليل المعالجة
+  - البيانات المستخرجة
+  - الملخصات والتوصيات
+
+
+*٤. طبقة العرض (Presentation Layer):
+  - مولد الرسوم البيانية (Charts Generator)
+  - رسوم بيانية تفاعلية
+  - بطاقات المعلومات
+  
+- مولد التقارير (Report Generator)
+  - إنشاء تقارير PDF
+  
+- واجهة لوحة التحكم (Dashboard Interface)
+  - عرض جميع المكونات
+  - التفاعل مع المستخدم
+
+  ___________________
+
+تدفق العمليات (Workflow):
+
+١. استلام البيانات -> معالجة وتنظيف -> تخزين مؤقت
+
+٢. تحليل متوازي:
+   - تحليل المشاعر والرضا
+   - استخراج المواضيع
+   - تحديد الكيانات
+   - تحليل الاتجاهات
+
+٣. توليد النتائج:
+   - حساب المؤشرات
+   - إنشاء الملخصات
+   - توليد التوصيات
+
+٤. تخزين النتائج في قاعدة البيانات
+
+٥. عرض النتائج:
+   - تحديث لوحة التحكم
+   - إنشاء التقارير
+
+اقتراحات تقنية:
+- استخدام Redis للتخزين المؤقت
+- قاعدة بيانات MongoDB للمرونة
+- Celery لإدارة المهام الثقيلة
+- FastAPI للواجهة الخلفية
+- React/Vue للواجهة الأمامية
+- البايثون كلغة أساسية للتحليل

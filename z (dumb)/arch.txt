@@ -1,0 +1,156 @@
+Reviewslytics/
+│
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── __init__.py
+│   │   │   ├── routes/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── auth.py
+│   │   │   │   ├── reviews.py
+│   │   │   │   └── analysis.py
+│   │   │   └── dependencies.py
+│   │   │
+│   │   ├── core/
+│   │   │   ├── __init__.py
+│   │   │   ├── config.py
+│   │   │   └── security.py
+│   │   │
+│   │   ├── db/
+│   │   │   ├── __init__.py
+│   │   │   ├── session.py
+│   │   │   └── models/
+│   │   │       ├── __init__.py
+│   │   │       ├── user.py
+│   │   │       └── analysis.py
+│   │   │
+│   │   └── services/
+│   │       ├── __init__.py
+│   │       ├── analyzer/
+│   │       │   └── reviews_analyzer/
+│   │       │       │
+|   |       |       ├── config/
+|   |       |       │   ├── __init__.py
+|   |       |       │   ├── settings.py          # إعدادات المشروع
+|   |       |       │   └── logging_config.py    # إعدادات التسجيل
+|   |       |       │
+|   |       |       ├── core/
+|   |       |       │   ├── __init__.py
+|   |       |       │   ├── analyzer.py         # المحلل الأساسي
+|   |       |       │   ├── validator.py        # التحقق من النتائج
+|   |       |       │   └── translator.py       # معالجة اللغات
+|   |       |       │
+|   |       |       ├── models/
+|   |       |       │   ├── __init__.py
+|   |       |       │   ├── data_models.py      # نماذج البيانات (Pydantic/dataclasses)
+|   |       |       │   └── database.py         # نماذج قاعدة البيانات
+|   |       |       │
+|   |       |       ├── services/
+|   |       |       │   ├── __init__.py
+|   |       |       │   ├── openai_service.py   # خدمة OpenAI
+|   |       |       │   ├── storage_service.py  # خدمة التخزين
+|   |       |       │   └── cache_service.py    # خدمة التخزين المؤقت
+|   |       |       │
+|   |       |       ├── utils/
+|   |       |       │   ├── __init__.py
+|   |       |       │   ├── data_cleaner.py    # تنظيف البيانات
+|   |       |       │   ├── text_processor.py   # معالجة النصوص
+|   |       |       │   └── error_handlers.py   # معالجة الأخطاء
+|   |       |       │
+|   |       |       ├── tests/
+|   |       |       │   ├── __init__.py
+|   |       |       │   ├── test_analyzer.py
+|   |       |       │   ├── test_validator.py
+|   |       |       │   └── test_data/
+|   |       |       │       └── sample_reviews.json
+|   |       |       │
+|   |       |       ├── alembic/               # إذا كنت تستخدم قاعدة بيانات SQL
+|   |       |       │   ├── versions/
+|   |       |       │   └── alembic.ini
+|   |       |       │
+|   |       |       ├── .env                  # متغيرات البيئة
+|   |       |       ├── requirements.txt      # المتطلبات
+|   |       |       ├── README.md            # التوثيق
+|   |       |       └── main.py              # نقطة البداية
+│   │       └── report_generator.py
+│   │
+│   ├── alembic/
+│   ├── tests/
+│   ├── .env
+│   ├── requirements.txt
+│   └── main.py
+│
+├── frontend/
+│   ├── public/
+│   │   ├── index.html
+│   │   └── assets/
+│   │
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── common/
+│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── Card.tsx
+│   │   │   │   └── Loading.tsx
+│   │   │   │
+│   │   │   ├── dashboard/
+│   │   │   │   ├── TrendChart.tsx
+│   │   │   │   ├── SummaryCards.tsx
+│   │   │   │   └── ActionItems.tsx
+│   │   │   │
+│   │   │   ├── analysis/
+│   │   │   │   ├── ReviewsUploader.tsx
+│   │   │   │   └── AnalysisResults.tsx
+│   │   │   │
+│   │   │   └── reports/
+│   │   │       ├── ReportGenerator.tsx
+│   │   │       └── PDFViewer.tsx
+│   │   │
+│   │   ├── hooks/
+│   │   │   ├── useAnalysis.ts
+│   │   │   └── useAuth.ts
+│   │   │
+│   │   ├── services/
+│   │   │   ├── api.ts
+│   │   │   └── auth.ts
+│   │   │
+│   │   ├── store/
+│   │   │   ├── slices/
+│   │   │   │   ├── analysisSlice.ts
+│   │   │   │   └── authSlice.ts
+│   │   │   └── store.ts
+│   │   │
+│   │   ├── types/
+│   │   │   ├── analysis.ts
+│   │   │   └── user.ts
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── formatters.ts
+│   │   │   └── validators.ts
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── Analysis.tsx
+│   │   │   └── Reports.tsx
+│   │   │
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   │
+│   ├── .env
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── vite.config.ts
+│
+├── docker/
+│   ├── backend/
+│   │   └── Dockerfile
+│   ├── frontend/
+│   │   └── Dockerfile
+│   └── docker-compose.yml
+│
+├── z (dumb)/
+│   ├── arch.txt
+│   ├── create_structure.sh
+│   ├── shell.ps1
+│   └── shell2.ps1
+|
+└── README.md
