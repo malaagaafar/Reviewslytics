@@ -1,0 +1,12 @@
+{
+  "name": "reviewslytics",
+  "version": "1.0.0",
+  "description": "Analyze customer feedback responsibly with our AI Review Analyzer, designed to extract meaningful insights from reviews. With intuitive dashboards, you'll see clear metrics on sentiment, trends, and key themes, helping you make data-driven decisions to improve your products and services with confidence.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
