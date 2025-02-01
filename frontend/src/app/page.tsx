@@ -20,8 +20,8 @@ export default function Home() {
               <Link href="/resources" className="text-gray-700 hover:text-gray-900">Resources</Link>
               <Link href="/pricing" className="text-gray-700 hover:text-gray-900">Pricing</Link>
               <Link href="/contact" className="text-gray-700 hover:text-gray-900">Contact</Link>
-              <Link href="/signin" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">Sign in</Link>
-              <Link href="/register" className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800">Register</Link>
+              <Link href="/login" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">Log in</Link>
+              <Link href="/signup" className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800">Sign up</Link>
             </div>
           </div>
         </div>
