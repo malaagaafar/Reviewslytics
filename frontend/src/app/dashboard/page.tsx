@@ -1,7 +1,44 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Dashboard() {
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // التحقق من وجود المستخدم في localStorage
+    const userStr = localStorage.getItem('user');
+    if (!userStr) {
+      router.push('/login');
+      return;
+    }
+    
+    setUser(JSON.parse(userStr));
+  }, []);
+
+  const handleGoogleLink = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/google', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        window.location.href = data.url;  // توجيه المستخدم إلى Google
+      }
+    } catch (error) {
+      console.error('Error linking Google account:', error);
+      alert('Error linking Google account');
+    }
+  };
+
+  if (!user) return null;
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -19,13 +56,16 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-semibold text-center mb-12">
-          Hello, Mohamed
+          Hello, {user.full_name}
         </h1>
 
         {/* Google Link Button */}
         <div className="flex justify-center mb-12">
-          <button className="bg-gray-200 hover:bg-gray-300 text-black px-8 py-3 rounded-full text-lg font-medium transition-colors">
-            Link Google
+          <button 
+            onClick={handleGoogleLink}
+            className="bg-gray-200 hover:bg-gray-300 text-black px-8 py-3 rounded-full text-lg font-medium transition-colors"
+          >
+            Link Google Business Profile
           </button>
         </div>
 

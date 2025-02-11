@@ -1,7 +1,53 @@
+'use client';
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // حفظ التوكن في localStorage
+        localStorage.setItem('token', data.access_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        // الانتقال إلى لوحة التحكم
+        router.push('/dashboard');
+      } else {
+        const error = await response.json();
+        alert(error.detail || 'Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('An error occurred during login');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
@@ -26,12 +72,12 @@ export default function SignIn() {
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{" "}
-              <Link href="/login" className="font-medium text-black hover:text-gray-800">
+              <Link href="/signup" className="font-medium text-black hover:text-gray-800">
                 create a new account
               </Link>
             </p>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="rounded-md shadow-sm space-y-4">
               <div>
                 <label htmlFor="email" className="sr-only">
@@ -45,6 +91,8 @@ export default function SignIn() {
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
                   placeholder="Email address"
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -59,6 +107,8 @@ export default function SignIn() {
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
                   placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -95,7 +145,7 @@ export default function SignIn() {
         </div>
       </div>
 
-      {/* Simple Footer */}
+      {/* Footer */}
       <footer className="bg-white">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
           <div className="text-center text-gray-500 text-sm">

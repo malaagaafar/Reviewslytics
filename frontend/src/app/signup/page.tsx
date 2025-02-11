@@ -1,7 +1,51 @@
+'use client';
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    email: '',
+    full_name: '',
+    password: '',
+    confirm_password: ''
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Registration successful:', data);
+        router.push('/login');
+      } else {
+        const error = await response.json();
+        alert(error.detail);
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('An error occurred during registration');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
@@ -26,24 +70,26 @@ export default function Register() {
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Already have an account?{" "}
-              <Link href="/signup" className="font-medium text-black hover:text-gray-800">
+              <Link href="/login" className="font-medium text-black hover:text-gray-800">
                 Sign in
               </Link>
             </p>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="rounded-md shadow-sm space-y-4">
               <div>
-                <label htmlFor="name" className="sr-only">
+                <label htmlFor="full_name" className="sr-only">
                   Full name
                 </label>
                 <input
-                  id="name"
-                  name="name"
+                  id="full_name"
+                  name="full_name"
                   type="text"
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
                   placeholder="Full name"
+                  value={formData.full_name}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -54,10 +100,11 @@ export default function Register() {
                   id="email"
                   name="email"
                   type="email"
-                  autoComplete="email"
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
                   placeholder="Email address"
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -71,19 +118,23 @@ export default function Register() {
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
                   placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="confirm-password" className="sr-only">
+                <label htmlFor="confirm_password" className="sr-only">
                   Confirm Password
                 </label>
                 <input
-                  id="confirm-password"
-                  name="confirm-password"
+                  id="confirm_password"
+                  name="confirm_password"
                   type="password"
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
                   placeholder="Confirm password"
+                  value={formData.confirm_password}
+                  onChange={handleChange}
                 />
               </div>
             </div>
