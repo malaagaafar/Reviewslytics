@@ -1,5 +1,5 @@
-from database.database import Base, engine
-from database.models import User  # إضافة استيراد النموذج
+from .database import Base, engine
+from .models import User  # إضافة استيراد النموذج
 
 def create_tables():
     Base.metadata.create_all(bind=engine)

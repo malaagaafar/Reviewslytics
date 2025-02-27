@@ -14,6 +14,9 @@ from fastapi import status
 
 router = APIRouter()
 
+# تعريف مدة صلاحية التوكن
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
 @router.post("/signup", response_model=User)
 async def create_user(user: UserCreate, db: Session = Depends(get_db)):
     # التحقق من أن كلمتي المرور متطابقتين
@@ -45,17 +48,33 @@ async def create_user(user: UserCreate, db: Session = Depends(get_db)):
     
     return db_user
 
-@router.post("/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = get_user(form_data.username)
+@router.post("/login")
+async def login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
+    # البحث عن المستخدم في قاعدة البيانات
+    user = db.query(DBUser).filter(DBUser.email == form_data.username).first()
+    
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.id}, expires_delta=access_token_expires
+        data={"sub": str(user.id)},
+        expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"} 
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "full_name": user.full_name
+        }
+    } 

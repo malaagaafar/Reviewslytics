@@ -16,8 +16,8 @@ SCOPES = [
 
 CLIENT_CONFIG = {
     "web": {
-        "client_id": "YOUR_CLIENT_ID",  # استبدل بـ Client ID الخاص بك
-        "client_secret": "YOUR_CLIENT_SECRET",  # استبدل بـ Client Secret الخاص بك
+        "client_id": "505579381541-b1ob8fq06hnfgl2svphgd6116dn10joc.apps.googleusercontent.com",
+        "client_secret": "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",
         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
         "token_uri": "https://oauth2.googleapis.com/token",
         "redirect_uris": ["http://localhost:3000/google/callback"]

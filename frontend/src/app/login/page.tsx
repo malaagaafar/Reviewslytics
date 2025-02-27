@@ -15,21 +15,22 @@ export default function SignIn() {
     e.preventDefault();
     
     try {
+      const formBody = new URLSearchParams();
+      formBody.append('username', formData.email);  // OAuth2 يستخدم 'username' وليس 'email'
+      formBody.append('password', formData.password);
+
       const response = await fetch('http://localhost:8000/api/auth/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(formData)
+        body: formBody
       });
 
       if (response.ok) {
         const data = await response.json();
-        // حفظ التوكن في localStorage
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        
-        // الانتقال إلى لوحة التحكم
         router.push('/dashboard');
       } else {
         const error = await response.json();
