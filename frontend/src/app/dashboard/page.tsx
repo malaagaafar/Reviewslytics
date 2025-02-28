@@ -21,15 +21,24 @@ export default function Dashboard() {
 
   const handleGoogleLink = async () => {
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
       const response = await fetch('http://localhost:8000/api/auth/google', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         }
       });
       
       if (response.ok) {
         const data = await response.json();
-        window.location.href = data.url;  // توجيه المستخدم إلى Google
+        // توجيه المستخدم إلى صفحة تفويض Google
+        window.location.href = data.url;
+      } else {
+        throw new Error('Failed to get Google authorization URL');
       }
     } catch (error) {
       console.error('Error linking Google account:', error);
