@@ -49,12 +49,12 @@ export default function Register() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
-      <nav className="border-b">
+      <nav className="border-b bg-white fixed w-full z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Link href="/" className="text-2xl font-bold">
-                <Image src="/logo.svg" alt="Logo" width={32} height={32} />
+              <Link href="/" className="flex items-center space-x-2">
+                <Image src="/Reviewslytics.svg" alt="Reviewslytics Logo" width={150} height={40} />
               </Link>
             </div>
           </div>
@@ -62,23 +62,23 @@ export default function Register() {
       </nav>
 
       {/* Register Form */}
-      <div className="flex-grow flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      <div className="flex-grow flex items-center justify-center bg-gray-50 pt-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
               Create your account
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
+            <p className="mt-2 text-base text-gray-600">
               Already have an account?{" "}
-              <Link href="/login" className="font-medium text-black hover:text-gray-800">
+              <Link href="/login" className="font-medium text-[#FF8000] hover:text-[#e67300] transition-colors">
                 Sign in
               </Link>
             </p>
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="rounded-md shadow-sm space-y-4">
+            <div className="space-y-4">
               <div>
-                <label htmlFor="full_name" className="sr-only">
+                <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 mb-1">
                   Full name
                 </label>
                 <input
@@ -86,14 +86,14 @@ export default function Register() {
                   name="full_name"
                   type="text"
                   required
-                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
-                  placeholder="Full name"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-md focus:outline-none focus:ring-[#FF8000] focus:border-[#FF8000] sm:text-sm"
+                  placeholder="Enter your full name"
                   value={formData.full_name}
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="email" className="sr-only">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email address
                 </label>
                 <input
@@ -101,14 +101,14 @@ export default function Register() {
                   name="email"
                   type="email"
                   required
-                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
-                  placeholder="Email address"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-md focus:outline-none focus:ring-[#FF8000] focus:border-[#FF8000] sm:text-sm"
+                  placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                   Password
                 </label>
                 <input
@@ -116,53 +116,57 @@ export default function Register() {
                   name="password"
                   type="password"
                   required
-                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
-                  placeholder="Password"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-md focus:outline-none focus:ring-[#FF8000] focus:border-[#FF8000] sm:text-sm"
+                  placeholder="Create a password"
                   value={formData.password}
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="confirm_password" className="sr-only">
-                  Confirm Password
+                <label htmlFor="confirm_password" className="block text-sm font-medium text-gray-700 mb-1">
+                  Confirm password
                 </label>
                 <input
                   id="confirm_password"
                   name="confirm_password"
                   type="password"
                   required
-                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
-                  placeholder="Confirm password"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-md focus:outline-none focus:ring-[#FF8000] focus:border-[#FF8000] sm:text-sm"
+                  placeholder="Confirm your password"
                   value={formData.confirm_password}
                   onChange={handleChange}
                 />
               </div>
             </div>
 
-            <div className="flex items-center">
-              <input
-                id="terms"
-                name="terms"
-                type="checkbox"
-                required
-                className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
-              />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-900">
-                I agree to the{" "}
-                <Link href="/terms" className="font-medium text-black hover:text-gray-800">
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link href="/privacy" className="font-medium text-black hover:text-gray-800">
-                  Privacy Policy
-                </Link>
-              </label>
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
+                <input
+                  id="terms"
+                  name="terms"
+                  type="checkbox"
+                  required
+                  className="h-4 w-4 text-[#FF8000] focus:ring-[#FF8000] border-gray-300 rounded"
+                />
+              </div>
+              <div className="ml-2 text-sm">
+                <label htmlFor="terms" className="font-medium text-gray-700">
+                  I agree to the{" "}
+                  <Link href="/terms" className="text-[#FF8000] hover:text-[#e67300] transition-colors">
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="/privacy" className="text-[#FF8000] hover:text-[#e67300] transition-colors">
+                    Privacy Policy
+                  </Link>
+                </label>
+              </div>
             </div>
 
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#FF8000] hover:bg-[#e67300] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF8000] transition-colors"
               >
                 Create account
               </button>
@@ -171,11 +175,11 @@ export default function Register() {
         </div>
       </div>
 
-      {/* Simple Footer */}
-      <footer className="bg-white">
+      {/* Footer */}
+      <footer className="bg-white border-t">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-gray-500 text-sm">
-            &copy; 2024 AI Review Analyzer. All rights reserved.
+          <div className="text-center text-sm text-gray-500">
+            &copy; {new Date().getFullYear()} Reviewslytics. All rights reserved.
           </div>
         </div>
       </footer>

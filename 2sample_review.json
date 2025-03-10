@@ -1,0 +1,50 @@
+[
+	{
+    "user_id":"106533466896145407182",
+    "name":"Amy VG",
+    "time":1568748357166,
+    "rating":5,
+    "text":"I can't say I've ever been excited about a dentist visit before, but there's a first for everything! Loved my experience at Lush today. Every person in the office was friendly and personable- plus the office itself is gorgeous! Great experience, I highly recommend!",
+    "pics":[
+       {
+          "url":[
+             "https://lh5.googleusercontent.com/p/AF1QipMBzN4BJV9YCObcw_ifNzFPm-u38hO3oimOA8Fb=w150-h150-k-no-p"
+          ]
+       },
+       {
+          "url":[
+             "https://lh5.googleusercontent.com/p/AF1QipNS1PEXEvadfUlhRkRDJ09idMxh3CveZGZYuTo5=w150-h150-k-no-p"
+          ]
+       }
+    ],
+    "resp":{
+       "time":1568770503975,
+       "text":"We love getting to meet new patients like yourself.  Thanks for giving our office a chance to take care of your dental needs and thanks for the nice review!"
+    },
+    "gmap_id":"0x87ec2394c2cd9d2d:0xd1119cfbee0da6f3"
+	},
+	{
+    "user_id":"106533466896145407182",
+    "name":"Amy VG",
+    "time":1568748357166,
+    "rating":5,
+    "text":"I can't say I've ever been excited about a dentist visit before, but there's a first for everything! Loved my experience at Lush today. Every person in the office was friendly and personable- plus the office itself is gorgeous! Great experience, I highly recommend!",
+    "pics":[
+       {
+          "url":[
+             "https://lh5.googleusercontent.com/p/AF1QipMBzN4BJV9YCObcw_ifNzFPm-u38hO3oimOA8Fb=w150-h150-k-no-p"
+          ]
+       },
+       {
+          "url":[
+             "https://lh5.googleusercontent.com/p/AF1QipNS1PEXEvadfUlhRkRDJ09idMxh3CveZGZYuTo5=w150-h150-k-no-p"
+          ]
+       }
+    ],
+    "resp":{
+       "time":1568770503975,
+       "text":"We love getting to meet new patients like yourself.  Thanks for giving our office a chance to take care of your dental needs and thanks for the nice review!"
+    },
+    "gmap_id":"0x87ec2394c2cd9d2d:0xd1119cfbee0da6f3"
+	}
+]
