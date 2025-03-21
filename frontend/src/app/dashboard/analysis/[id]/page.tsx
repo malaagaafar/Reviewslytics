@@ -334,4 +334,30 @@ export default function AnalysisDashboard() {
               {Object.entries(topics.main_topics).map(([topic, count]) => (
                 <div key={topic} className="border rounded-xl p-4">
                   <div className="text-lg font-medium">{topic}</div>
-   
+                  <div className="text-gray-600">Mentioned {count} times</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Recommendations Section */}
+          {recommendations && (
+            <div className="bg-white rounded-2xl p-8 shadow-sm">
+              <h2 className="text-2xl font-bold mb-6">Key Recommendations</h2>
+              <ul className="space-y-4">
+                {recommendations.map((rec, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-[#FF8000] text-white rounded-full flex items-center justify-center">
+                      {index + 1}
+                    </span>
+                    <p className="text-gray-700">{rec}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+} 

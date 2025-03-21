@@ -432,7 +432,7 @@ export default function Dashboard() {
                 <div className="flex-grow">
                   <p className="font-medium text-gray-900">{file.fileName}</p>
                   <p className="text-sm text-gray-500">
-                    {new Date(file.uploadDate).toLocaleDateString('ar-SA', {
+                    {new Date(file.uploadDate).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
@@ -538,16 +538,16 @@ export default function Dashboard() {
         <div className="flex justify-center">
           <button 
             onClick={handleAnalyze}
-            disabled={!selectedFiles.size || !selectedAnalysisType || isLoading}
+            disabled={isUploading || !selectedFiles.size || !selectedAnalysisType}
             className={`
               px-16 py-4 rounded-xl text-xl font-medium transition-colors
-              ${(!selectedFiles.size || !selectedAnalysisType || isLoading)
+              ${(isUploading || !selectedFiles.size || !selectedAnalysisType)
                 ? 'bg-gray-200 cursor-not-allowed'
                 : 'bg-[#FF8000] hover:bg-[#e67300] text-white'
               }
             `}
           >
-            {isLoading ? 'Starting Analysis...' : 'Analyze Reviews'}
+            {isUploading ? 'Processing...' : 'Analyze Reviews'}
           </button>
         </div>
 
