@@ -164,10 +164,10 @@ async def get_google_reviews(
         )
 
         # إنشاء خدمة Business Profile API
-        mybusiness = build('mybusinessbusinessinformation', 'v1', credentials=credentials)
-        
-        # الحصول على قائمة الأماكن
         accounts_service = build('mybusinessaccountmanagement', 'v1', credentials=credentials)
+        business_service = build('mybusinessbusinessinformation', 'v1', credentials=credentials)
+        
+        logger.debug("Fetching accounts")
         accounts = accounts_service.accounts().list().execute()
         
         all_reviews = []
@@ -179,7 +179,7 @@ async def get_google_reviews(
             
             try:
                 # الحصول على قائمة الأماكن
-                locations = mybusiness.accounts().locations().list(
+                locations = business_service.accounts().locations().list(
                     parent=account_name
                 ).execute()
                 
@@ -189,11 +189,8 @@ async def get_google_reviews(
                     logger.debug(f"Fetching reviews for location: {location_name}")
                     
                     try:
-                        # إنشاء خدمة المراجعات
-                        reviews_service = build('mybusinessreviews', 'v1', credentials=credentials)
-                        
-                        # جلب المراجعات
-                        reviews = reviews_service.accounts().locations().reviews().list(
+                        # استخدام Business Profile API للمراجعات
+                        reviews = business_service.locations().reviews().list(
                             parent=location_name
                         ).execute()
                         

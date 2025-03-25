@@ -40,6 +40,8 @@ app.include_router(google.router, prefix="/api/auth", tags=["google"])
 app.include_router(reviews.router, prefix="/api/reviews", tags=["reviews"])
 app.include_router(analysis.router, prefix="/api/analysis", tags=["analysis"])
 app.include_router(files.router, prefix="/api/reviews", tags=["files"])
+app.include_router(google.router, prefix="/api/google", tags=["google"])  # تغيير المسار هنا
+
 
 @app.get("/")
 async def root():

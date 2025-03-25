@@ -65,6 +65,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [businesses, setBusinesses] = useState<BusinessLocation[]>([]);
   const [isLoadingBusinesses, setIsLoadingBusinesses] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     // Check authentication on component mount
@@ -91,14 +92,31 @@ export default function Dashboard() {
 
   useEffect(() => {
     // التحقق من حالة الربط عند تحميل الصفحة
-    const connected = searchParams.get('connected');
-    const savedReviews = localStorage.getItem('googleReviews');
-    
-    if (connected === 'true' && savedReviews) {
-      setBusinesses(JSON.parse(savedReviews));
-      // مسح المراجعات المخزنة بعد استخدامها
-      localStorage.removeItem('googleReviews');
+    const checkConnection = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:8000/api/auth/google/reviews', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (response.ok) {
+          setIsConnected(true);
+          const data = await response.json();
+          setBusinesses(data.reviews || []);
+        }
+      } catch (error) {
+        console.error('Error checking connection:', error);
+      }
+    };
+
+    // إذا كان هناك parameter يشير إلى نجاح الربط
+    if (searchParams.get('connected') === 'true') {
+      setIsConnected(true);
     }
+
+    checkConnection();
   }, [searchParams]);
 
   const fetchSavedFiles = async () => {
@@ -415,15 +433,10 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         {/* Google Business Section */}
-        <div className="bg-white rounded-2xl p-8 shadow-sm mb-8">
-          <h2 className="text-2xl font-bold mb-6">Connect Your Business</h2>
-          
-          {/* حالة عدم وجود حساب مرتبط */}
-          {!businesses.length && (
-            <div className="flex items-center justify-between">
-              <div className="text-gray-600">
-                Connect your Google Business Profile to analyze your reviews
-              </div>
+        <div className="bg-white rounded-2xl p-8 shadow-sm mb-8 mt-16">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold">Connect Your Business</h2>
+            {!isConnected ? (
               <button 
                 onClick={handleGoogleLink}
                 className="inline-flex items-center px-6 py-3 rounded-xl bg-white border-2 border-gray-200 hover:border-gray-300 text-gray-700 transition-colors"
@@ -433,81 +446,61 @@ export default function Dashboard() {
                 </svg>
                 Connect Google Business Profile
               </button>
-            </div>
-          )}
+            ) : (
+              <button
+                onClick={fetchBusinessLocations}
+                disabled={isLoadingBusinesses}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  isLoadingBusinesses
+                    ? 'bg-gray-200 cursor-not-allowed'
+                    : 'bg-[#FF8000] hover:bg-[#e67300] text-white'
+                }`}
+              >
+                {isLoadingBusinesses ? 'Loading...' : 'Refresh Reviews'}
+              </button>
+            )}
+          </div>
 
-          {/* حالة وجود حساب مرتبط */}
+          {/* عرض المراجعات */}
           {businesses.length > 0 && (
-            <div>
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center space-x-4">
-                  <div className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-sm font-medium">
-                    Connected
-                  </div>
-                  <span className="text-gray-600">
-                    {businesses.length} business locations connected
-                  </span>
-                </div>
-                <button
-                  onClick={fetchBusinessLocations}
-                  disabled={isLoadingBusinesses}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    isLoadingBusinesses
-                      ? 'bg-gray-200 cursor-not-allowed'
-                      : 'bg-[#FF8000] hover:bg-[#e67300] text-white'
-                  }`}
-                >
-                  {isLoadingBusinesses ? (
-                    <div className="flex items-center">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                      Loading Reviews...
-                    </div>
-                  ) : (
-                    'Refresh Reviews'
-                  )}
-                </button>
-              </div>
-
-              {/* عرض المراجعات */}
-              <div className="space-y-6">
-                {businesses.map((business, index) => (
-                  <div key={index} className="border rounded-xl p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="font-medium text-lg">{business.locationName}</h3>
-                        <div className="flex items-center mt-1">
-                          <div className="flex">
-                            {[...Array(5)].map((_, i) => (
-                              <svg
-                                key={i}
-                                className={`w-5 h-5 ${
-                                  i < business.starRating 
-                                    ? 'text-yellow-400' 
-                                    : 'text-gray-300'
-                                }`}
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                            ))}
-                          </div>
-                          <span className="ml-2 text-gray-600">
-                            {new Date(business.createTime).toLocaleDateString()}
-                          </span>
+            <div className="space-y-6">
+              {businesses.map((business, index) => (
+                <div key={index} className="border rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="font-medium text-lg">{business.locationName}</h3>
+                      <div className="flex items-center mt-1">
+                        <div className="flex">
+                          {[...Array(5)].map((_, i) => (
+                            <svg
+                              key={i}
+                              className={`w-5 h-5 ${
+                                i < business.starRating 
+                                  ? 'text-yellow-400' 
+                                  : 'text-gray-300'
+                              }`}
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ))}
                         </div>
+                        <span className="ml-2 text-gray-600">
+                          {new Date(business.createTime).toLocaleDateString()}
+                        </span>
                       </div>
                     </div>
-                    <p className="text-gray-700">{business.comment}</p>
                   </div>
-                ))}
+                  <p className="text-gray-700">{business.comment}</p>
+                </div>
+              ))}
 
-                {businesses.length === 0 && !isLoadingBusinesses && (
-                  <div className="text-center text-gray-500 py-8">
-                    No reviews found. Click "Refresh Reviews" to load your business reviews.
-                  </div>
-                )}
-              </div>
+              {businesses.length === 0 && !isLoadingBusinesses && (
+                <div className="text-center text-gray-500 py-8">
+                  No reviews found. Click "Refresh Reviews" to load your business reviews.
+                </div>
+              )}
             </div>
           )}
         </div>
